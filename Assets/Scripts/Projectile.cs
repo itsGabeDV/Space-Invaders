@@ -4,10 +4,11 @@ public class Projectile : MonoBehaviour
 {
     public float moveSpeed;
     public GameObject explosionEffect;
+    private PointManager pointManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
     }
 
     // Update is called once per frame
@@ -22,6 +23,7 @@ public class Projectile : MonoBehaviour
         {
             Instantiate(explosionEffect, transform.position, transform.rotation);
             Destroy(collision.gameObject);
+            pointManager.UpdateScore(100);
             Destroy(gameObject);
         }
 
