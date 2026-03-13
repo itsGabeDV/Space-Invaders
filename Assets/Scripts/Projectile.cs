@@ -3,6 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float moveSpeed;
+    public GameObject explosionEffect;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +20,7 @@ public class Projectile : MonoBehaviour
     {
         if(collision.CompareTag("Enemy"))
         {
+            Instantiate(explosionEffect, transform.position, transform.rotation);
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
