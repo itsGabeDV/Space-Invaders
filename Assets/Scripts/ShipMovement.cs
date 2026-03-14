@@ -22,7 +22,7 @@ public class ShipMovement : MonoBehaviour
         //If ships collides with boundry, move ships down a layer and move to opposite side of screen
         if (collision.gameObject.CompareTag("Boundary"))
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
             moveSpeed = -moveSpeed;
         }
     }
