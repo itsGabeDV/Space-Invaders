@@ -18,30 +18,50 @@ public class PlayerLives : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void TakeDamage()
     {
-        if (collision.collider.gameObject.tag == "Enemy")
-        {
-            Destroy(collision.collider.gameObject); // Destroys the enemy that touched the player
-            lives -= 1; //take away a live from the player
-            Instantiate(explosionEffect, transform.position, Quaternion.identity); // Create an explosion effect at the player's position
-            for (int i = 0; i < livesUI.Length; i++)
-            {
-                if (i >= lives)
-                {
-                    livesUI[i].enabled = false;
-                }
-                else
-                {
-                    livesUI[i].enabled = true;
-                    
-                }
-            }
 
-            if(lives <= 0)
+        lives -= 1; //take away a live from the player
+        Instantiate(explosionEffect, transform.position, Quaternion.identity); // Create an explosion effect at the player's position
+        for (int i = 0; i < livesUI.Length; i++)
+        {
+            if (i < lives)
             {
-                Destroy(gameObject);
+                livesUI[i].enabled = true;
+            }
+            else
+            {
+                livesUI[i].enabled = false;
+                
             }
         }
+        if (lives <= 0)
+        {
+            //Player is dead
+            Destroy(gameObject);
+            //Trigger Game Over
+        }
+
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //If Enemy crashes into the player
+        if (collision.collider.gameObject.tag == "Enemy")
+        {
+            TakeDamage();
+            Destroy(collision.collider.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //If Enemy Projectile hits the player
+        if (collision.CompareTag("EnemyProjectile"))
+        {
+            TakeDamage();
+            Destroy(collision.gameObject);
+        }
+    }
+
 }
